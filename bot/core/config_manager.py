@@ -60,8 +60,8 @@ class Config:
     USE_SERVICE_ACCOUNTS = False
     WEB_PINCODE = False
     YT_DLP_OPTIONS = ""
-    MAX_CONCURRENT_DOWNLOADS = 5
-    MAX_DOWNLOAD_SIZE = 30*1024*1024*1024
+    MAX_CONCURRENT_DOWNLOADS = 2
+    MAX_DOWNLOAD_SIZE = 30*1024*1024
 
     @classmethod
     def get(cls, key):
