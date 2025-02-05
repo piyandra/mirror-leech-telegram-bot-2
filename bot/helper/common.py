@@ -153,6 +153,11 @@ class TaskConfig:
                 raise ValueError(f"NO TOKEN! {token_path} not Exists!")
 
     async def before_start(self):
+        if self.size > Config.MAX_DOWNLOAD_SIZE:
+            return await self.on_download_error(f"Size Limit Exceeded: {self.size}")
+        user_task = [tk for tk in task_dict.values()]
+        if len(user_task) >= Config.MAX_CONCURRENT_DOWNLOADS:
+            return await self.on_download_error("Max Downloads Limit Reached")
         self.name_sub = (
             self.name_sub
             or self.user_dict.get("name_sub", False)
