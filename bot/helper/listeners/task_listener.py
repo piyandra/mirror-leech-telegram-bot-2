@@ -73,14 +73,9 @@ class TaskListener(TaskConfig):
     async def on_download_start(self):
         if self.size > Config.MAX_DOWNLOAD_SIZE:
             return await self.on_download_error(f"Size Limit Exceeded: {self.size}")
-
-        user_task = await database.get_incomplete_tasks()
+        user_task = [tk for tk in task_dict.values()]
         if len(user_task) >= Config.MAX_CONCURRENT_DOWNLOADS:
-             return await self.on_download_error(
-                f"Maximum {Config.MAX_CONCURRENT_DOWNLOADS} Downloads Allowed!"
-            )
-
-
+            return await self.on_download_error("Max Downloads Limit Reached")
         if (
             self.is_super_chat
             and Config.INCOMPLETE_TASK_NOTIFIER
