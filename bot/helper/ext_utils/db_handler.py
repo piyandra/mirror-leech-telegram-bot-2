@@ -179,6 +179,13 @@ class DbManager:
         if self._return:
             return
         await self.db[name][TgClient.ID].drop()
+    async def get_data_task(self, user_id):
+        if self._return:
+            return 0
+        count = await self.db.tasks[TgClient.ID].count_documents({"cid": user_id})
+        return count
+
+
 
 
 database = DbManager()

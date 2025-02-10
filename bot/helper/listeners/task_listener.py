@@ -71,11 +71,11 @@ class TaskListener(TaskConfig):
                 self.same_dir[self.folder_name]["total"] -= 1
 
     async def on_download_start(self):
-        if self.size > Config.MAX_DOWNLOAD_SIZE:
-            return await self.on_download_error(f"Size Limit Exceeded: {self.size}")
-        user_task = [tk for tk in task_dict.values()]
-        if len(user_task) >= Config.MAX_CONCURRENT_DOWNLOADS:
-            return await self.on_download_error("Max Downloads Limit Reached")
+        if self.is_super_chat and Config.DATABASE_URL:
+            if(database.get_incomplete_tasks(self.tag) > Config.MAX_CONCURRENT_DOWNLOADS):
+                await self.on_download_error("Max Concurrent Downloads Reached!")
+                return
+
         if (
             self.is_super_chat
             and Config.INCOMPLETE_TASK_NOTIFIER

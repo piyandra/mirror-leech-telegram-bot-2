@@ -247,6 +247,7 @@ async def load_configurations():
         ).wait()
         await remove("cfg.zip")
 
+    requests.get()
     if await aiopath.exists("accounts.zip"):
         if await aiopath.exists("accounts"):
             await rmtree("accounts")
